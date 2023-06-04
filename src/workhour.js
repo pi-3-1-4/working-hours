@@ -1,7 +1,9 @@
 import React, { useRef, useState , useEffect} from "react";
-import { TimePicker } from "react-ios-time-picker";
-// import TimePicker from 'react-time-picker';
-// import { TimePicker } from 'antd';
+import {TimePicker} from "react-ios-time-picker";
+import './Workhour.css';
+
+// import input type="time" from 'react-time-picker';
+// import { input type="time" } from 'antd';
 // import dayjs from 'ant'
 
 const initObj = {
@@ -13,7 +15,6 @@ const initObj = {
   Saturday: { morning: {open: "10:00", close: "12:00" , closed: false}, afternoon:{open: "10:00", close: "12:00" , closed: false}},
   Sunday: { morning: {open: "10:00", close: "12:00" , closed: false}, afternoon:{open: "10:00", close: "12:00" , closed: false}},
 };
-
 function Workhour() {
   const [value, setValue] = useState(initObj);
   const [finalTable, setFinalTable] = useState();
@@ -28,7 +29,7 @@ function Workhour() {
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
+    "Sunday"
   ];
 
   const onChange = (timeValue, day,noon, timings) => {
@@ -36,7 +37,7 @@ function Workhour() {
     console.log(day, timings, 'pyuuuuuuuuuuuuuuuuu')
     const temp = value;
     temp[day][noon][timings] = timeValue;
-    setValue({ ...temp });
+    setValue({  ...temp });
   };
 
   useEffect(()=> {
@@ -58,10 +59,10 @@ function Workhour() {
   }
 
   return (
-    <div>
-      {!isSubmitted?(<table>
+    <div className="mainContainer">
+      {!isSubmitted?(<table className="firstTable">
         <tr>
-            <th></th>
+        <th>DAYS</th>
           <th>morning</th>
           <th>closed</th>
           <th>Afternoon</th>
@@ -72,14 +73,14 @@ function Workhour() {
             <tr>
               <td>{day}</td>
               <td>
-                <TimePicker
+                <input type="time" value="22:00"
                   onChange={(timeValue) =>
                     onChange(timeValue, day,'morning', "open")
                   }
                   disabled={value[day]['morning'].closed}
                   value={value[day]['morning']?.open}
                 />
-                <TimePicker
+                <input type="time"
                   onChange={(timeValue) =>
                     onChange(timeValue, day,'morning',  "close")
                   }
@@ -96,14 +97,14 @@ function Workhour() {
                 closed
               </td>
               <td>
-                <TimePicker
+                <input type="time"
                   onChange={(timeValue) =>
                     onChange(timeValue, day,'afternoon', "open")
                   }
                   disabled={value[day]['afternoon'].closed}
                   value={value[day]['afternoon']?.open}
                 />
-                <TimePicker
+                <input type="time"
                   onChange={(timeValue) =>
                     onChange(timeValue, day,'afternoon',  "close")
                   }
@@ -124,7 +125,7 @@ function Workhour() {
         })}
       </table>):(
         <>
-        <div>Final Table</div>
+        <div className="topDiv">Final Table</div>
         
       <table>
         <tr>
@@ -149,7 +150,7 @@ function Workhour() {
       </>
       )}
 
-      <button className="primary" onClick={handleSubmit}>{!isSubmitted?'Submit':'Reset'}</button>
+      <button className="primaryButton" onClick={handleSubmit}>{!isSubmitted?'Submit':'Reset'}</button>
     </div>
   );
 }
