@@ -1,35 +1,34 @@
 import React, { useRef, useState, useEffect } from "react";
-import { TimePicker } from "react-ios-time-picker";
 import "./Workhour.css";
 
 const initObj = {
   Monday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Tuesday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Wednesday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Thursday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Friday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Saturday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
   Sunday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "13:00", close: "18:00", closed: false },
+    afternoon: { open: "12:00", close: "23:59", closed: false },
   },
 };
 function Workhour() {
@@ -53,16 +52,11 @@ function Workhour() {
 
   const onChange = (timeValue, day, noon, timings) => {
     const temp = value;
-    temp[day][noon][timings] = timeValue;
+    temp[day][noon][timings] = timeValue.target.value;
+    console.log(timeValue);
     setValue({ ...temp });
   };
-
-  useEffect(() => {
-    console.log(value, "value");
-    console.log(isSubmitted, "isSubmittedisSubmitted");
-    console.log(sessionStorage.getItem("finalTable"), "session");
-  }, [isSubmitted]);
-
+  
   const handleClick = (day, noon) => {
     const temp = JSON.parse(JSON.stringify(value));
     temp[day][noon].closed = !temp[day][noon].closed;
@@ -81,27 +75,30 @@ function Workhour() {
   return (
     <div className="mainContainer">
       {!isSubmitted ? (
+        <>
+        <div className="fDiv">INSERT THE TIMINGS</div>
         <table className="firstTable">
           <tr>
             <th>DAYS</th>
-            <th>morning</th>
-            <th>closed</th>
+            <th>Morning</th>
+            <th>Closed</th>
             <th>Afternoon</th>
-            <th>closed</th>
+            <th>Closed</th>
           </tr>
           {weekDays.map((day) => {
             return (
               <tr>
                 <td>{day}</td>
                 <td>
-                  <TimePicker
-                    onChange={(timeValue) =>
+                  <input
+                    type="time"
+                    onChange={(timeValue)=>
                       onChange(timeValue, day, "morning", "open")
                     }
-                    disabled={value[day]["morning"].closed}
+                    disabled={value[day]["morning"]?.closed}
                     value={value[day]["morning"]?.open}
                   />
-                  <TimePicker
+                  <input
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "morning", "close")
@@ -119,7 +116,7 @@ function Workhour() {
                   closed
                 </td>
                 <td>
-                  <TimePicker
+                  <input
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "afternoon", "open")
@@ -127,7 +124,7 @@ function Workhour() {
                     disabled={value[day]["afternoon"].closed}
                     value={value[day]["afternoon"]?.open}
                   />
-                  <TimePicker
+                  <input
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "afternoon", "close")
@@ -148,14 +145,15 @@ function Workhour() {
             );
           })}
         </table>
+        </>
       ) : (
         <>
           <div className="topDiv">Final Table</div>
 
           <table>
             <tr>
-              <th></th>
-              <th>morning</th>
+              <th>DAYS</th>
+              <th>Morning</th>
               <th>Afternoon</th>
             </tr>
             {weekDays.map((day) => {
