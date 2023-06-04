@@ -5,31 +5,31 @@ import "./Workhour.css";
 const initObj = {
   Monday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Tuesday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Wednesday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Thursday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Friday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Saturday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
   Sunday: {
     morning: { open: "10:00", close: "12:00", closed: false },
-    afternoon: { open: "10:00", close: "12:00", closed: false },
+    afternoon: { open: "13:00", close: "18:00", closed: false },
   },
 };
 function Workhour() {
@@ -58,9 +58,9 @@ function Workhour() {
   };
 
   useEffect(() => {
-    console.log(value, "valueeeeeeeeeeeee");
+    console.log(value, "value");
     console.log(isSubmitted, "isSubmittedisSubmitted");
-    console.log(sessionStorage.getItem("finalTable"), "sessionnnnnnnnnnnnn");
+    console.log(sessionStorage.getItem("finalTable"), "session");
   }, [isSubmitted]);
 
   const handleClick = (day, noon) => {
@@ -94,16 +94,14 @@ function Workhour() {
               <tr>
                 <td>{day}</td>
                 <td>
-                  <input
-                    type="time"
-                    value="22:00"
+                  <TimePicker
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "morning", "open")
                     }
                     disabled={value[day]["morning"].closed}
                     value={value[day]["morning"]?.open}
                   />
-                  <input
+                  <TimePicker
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "morning", "close")
@@ -121,7 +119,7 @@ function Workhour() {
                   closed
                 </td>
                 <td>
-                  <input
+                  <TimePicker
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "afternoon", "open")
@@ -129,7 +127,7 @@ function Workhour() {
                     disabled={value[day]["afternoon"].closed}
                     value={value[day]["afternoon"]?.open}
                   />
-                  <input
+                  <TimePicker
                     type="time"
                     onChange={(timeValue) =>
                       onChange(timeValue, day, "afternoon", "close")
